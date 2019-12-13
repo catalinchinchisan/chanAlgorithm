@@ -3,7 +3,7 @@ var step = 1;
 //var canvas = $("#myCanvas")[0];
 var canvas = document.getElementById("myCanvas")
 var ctx = canvas.getContext("2d");
-
+var graficPoints = [];
 
 function drawLine(ax,ay,bx,by) {
     var headlen = 10; 
@@ -65,15 +65,36 @@ var checkHamiltonianPath = function(){
 }
 
 console.log("checkHamiltonianPath", checkHamiltonianPath())
-var radios = document.getElementsByName('inputType');
 
-circle_r = 100;
-circle_x = 250;
-circle_y = 250;
+var addManualPoints = true;
+$('#myCanvas').click(function(e){
+    if(addManualPoints){
+        var x = e.clientX - $('#myCanvas').position().left, 
+        y = e.clientY - $('#myCanvas').position().top;  
+        console.log(x,y)
+        if(graficPoints.length < matrix.length){
+            graficPoints.push({
+                name: "x"+(graficPoints.length+1),
+                x:x,
+                y:y
+            });
 
+            drawDot(x,y,"x"+(graficPoints.length))
+            
+        }
+        if(graficPoints.length == matrix.length){
+            console.log(graficPoints)
+            drawLines()
+        }
+    }
+    
+})  
 
 
 var generateGraficPoints = function(){
+    circle_r = 100;
+    circle_x = 250;
+    circle_y = 250;
     var points = [];
     for(var i = 0; i < matrix.length; i++){
         var alpha = 2 * Math.PI * Math.random()
@@ -93,14 +114,14 @@ var generateGraficPoints = function(){
     }
     return points;
 }
-var points = generateGraficPoints();
-console.log(points)
-for(var i = 0; i < points.length; i++){
-    drawDot(points[i].x,points[i].y,points[i].name)
-}
+//var points = generateGraficPoints();
+
+// for(var i = 0; i < points.length; i++){
+//     drawDot(points[i].x,points[i].y,points[i].name)
+// }
 var getPointCoordonate = function(point){
-    for (var i = 0; i< points.length; i++){
-        if("x" + point == points[i].name) return{x:points[i].x, y: points[i].y}
+    for (var i = 0; i< graficPoints.length; i++){
+        if("x" + point == graficPoints[i].name) return{x:graficPoints[i].x, y: graficPoints[i].y}
     }
 }
 
@@ -113,10 +134,8 @@ var drawLines = function(){
         startPoint = getPointCoordonate(i+1);
         for(var j = 0; j < arrayOfLineNodes[i].length; j++){ 
             stopPoint = getPointCoordonate(arrayOfLineNodes[i][j]+1)
-            drawLine(startPoint.x,startPoint.y,stopPoint.x,stopPoint.y)
+            if(startPoint && stopPoint) drawLine(startPoint.x,startPoint.y,stopPoint.x,stopPoint.y)
         }
     }
 }
 
-drawLines();
-console.log("point coord",getPointCoordonate(3))
