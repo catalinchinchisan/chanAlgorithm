@@ -6,8 +6,16 @@ var ctx = canvas.getContext("2d");
 
 
 function drawLine(ax,ay,bx,by) {
+    var headlen = 10; 
+    var dx = bx - ax;
+    var dy = by - ay;
+    var angle = Math.atan2(dy, dx);
     ctx.moveTo(step*ax, step*ay);
     ctx.lineTo(step*bx, step*by);
+    ctx.lineTo(bx, by);
+    ctx.lineTo(bx - headlen * Math.cos(angle - Math.PI / 6), by - headlen * Math.sin(angle - Math.PI / 6));
+    ctx.moveTo(bx, by);
+    ctx.lineTo(bx - headlen * Math.cos(angle + Math.PI / 6), by - headlen * Math.sin(angle + Math.PI / 6));
     ctx.stroke();
 }
 
