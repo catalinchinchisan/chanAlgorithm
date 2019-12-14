@@ -5,6 +5,7 @@ var canvas = document.getElementById("myCanvas")
 var ctx = canvas.getContext("2d");
 var graficPoints = [];
 var inputType = "1";
+$('#inputEx').html("Input example <br>0,0,0,0,1 <br>1,0,0,1,1 <br>1,1,0,1,1 <br>1,0,0,0,1 <br>0,0,0,0,0");
 var showMessage = function(type, message){
     $('#dialogSpan').text(message);
 }
@@ -188,6 +189,15 @@ var startAlg = function(){
 }
 
 $('input[type=radio][name=inputType]').change(function() { 
-   inputType = this.value();
+    inputType = this.value;
+    if(inputType == "1"){
+        $('#inputEx').html(("Input example <br>0,0,0,0,1 <br>1,0,0,1,1 <br>1,1,0,1,1 <br>1,0,0,0,1 <br>0,0,0,0,0"));
+    }
+   if(inputType == "2"){
+        $('#inputEx').html(("Input example <br>(1,5) (2,1) (2,4) (2,5) ..."));
+    }
+    if(inputType == "3"){
+        $('#inputEx').html(("Input example <br>1->5<br>2->1,4,5 ..."));
+    }
 });
 
