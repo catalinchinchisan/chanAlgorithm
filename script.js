@@ -4,7 +4,46 @@ var step = 1;
 var canvas = document.getElementById("myCanvas")
 var ctx = canvas.getContext("2d");
 var graficPoints = [];
+var inputType = "1";
+var showMessage = function(type, message){
+    $('#dialogSpan').text(message);
+}
+var getInput = function(){
+    showMessage("alert", "")
+    var textareaVal = $("#textArea").val();
+    var matrix = [];
+    if(textareaVal == undefined || textareaVal == ""){
+        showMessage("alert", "Input gol!")
+    }else{
+        if(inputType == "1"){
+            matrix = textareaVal.split("\n");
+            for(var i = matrix.length - 1; i >= 0; i--){
+                matrix[i] = matrix[i].replace(/ /g, "");
+                if(matrix[i] == ""){
+                    matrix.splice(i,1)
+                }else{
 
+                    matrix[i] = matrix[i].split(",").map(function (x) { 
+                        return parseInt(x); 
+                    });
+                }
+            }
+        }
+        if(matrix){
+            for (var i = 0; i < matrix.length; i++){
+                if(matrix[i].length != matrix.length){
+                    showMessage("alert", "Matricea nu este patratica!!")
+                    return [];
+                }
+            }
+            return(matrix)
+        }else{
+            showMessage("alert", "unexpected error")
+            return [];
+        }
+    }
+   
+}
 function drawLine(ax,ay,bx,by) {
     var headlen = 10; 
     var dx = bx - ax;
@@ -114,11 +153,15 @@ var generateGraficPoints = function(){
     }
     return points;
 }
-//var points = generateGraficPoints();
+
+var addAutoPoints = function(){
+    //var points = generateGraficPoints();
 
 // for(var i = 0; i < points.length; i++){
 //     drawDot(points[i].x,points[i].y,points[i].name)
 // }
+}
+
 var getPointCoordonate = function(point){
     for (var i = 0; i< graficPoints.length; i++){
         if("x" + point == graficPoints[i].name) return{x:graficPoints[i].x, y: graficPoints[i].y}
@@ -138,4 +181,13 @@ var drawLines = function(){
         }
     }
 }
+
+var startAlg = function(){
+    console.log("startAlg()")
+    getInput()
+}
+
+$('input[type=radio][name=inputType]').change(function() { 
+   inputType = this.value();
+});
 

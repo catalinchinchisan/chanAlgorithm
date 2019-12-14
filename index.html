@@ -7,23 +7,31 @@
     <title>Document</title>
 </head>
 <body>
+        <span id="dialogSpan"></span>
     <form action="#n" name="theForm">
         <label for="inputType">Type: </label>
         <input type="radio" name="inputType" value="1" checked> 1
-
         <input type="radio" name="inputType" value="2" > 2
         <input type="radio" name="inputType" value="3" > 3
     </form>
-    <textarea rows="4" cols="50">
+    <div id="inputEx">
+        Input example <br>
+        0,0,0,0,1 <br>
+        1,0,0,1,1 <br>
+        1,1,0,1,1 <br>
+        1,0,0,0,1 <br>
+        0,0,0,0,0
+    </div>
+    <textarea id="textArea" rows="4" cols="50">
         0,0,0,0,1
         1,0,0,1,1
         1,1,0,1,1
         1,0,0,0,1
         0,0,0,0,0
-            </textarea>
-    <!-- <div id="inputType-3">
-        <input type="text">
-    </div> -->
+    </textarea>
+    <button id="autoAddPoints" onClick="addAutoPoints()">Adauga puncte auto</button>
+    <button id="manualAddPoints">Adauga puncte manual</button>
+    <button id="startAlg" onClick="startAlg()">Start</button>
     <div>
         <canvas id="myCanvas" width="500" height="500" style="border:1px solid #000000;"></canvas>
 
