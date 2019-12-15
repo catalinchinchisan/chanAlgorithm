@@ -86,13 +86,6 @@ var getInput = function(){
             console.log(matrix)
         }
         if(matrix){
-            
-            for (var i = 0; i < matrix.length; i++){
-                if(matrix[i].length != matrix.length){
-                    showMessage("alert", "Matricea nu este patratica!!")
-                    return [];
-                }
-            }
             return(matrix)
         }else{
             showMessage("alert", "unexpected error")
@@ -239,9 +232,39 @@ var drawLines = function(){
     }
 }
 
+var matricePatratica = function(mat){
+    for (var i = 0; i < mat.length; i++){
+        if(mat[i].length != mat.length){
+            
+            return false;
+        }
+    }
+    return true;
+}
+
+var circuitre = function(mat){
+    for (var i = 0; i < mat.length; i++){
+        if(mat[i][i] == 1){
+            
+            return true;
+        }
+    }
+    return false;
+}
+
 var startAlg = function(){
     console.log("startAlg()")
     console.log("matrix ",getInput())
+    matrix = getInput();
+    if(matricePatratica(matrix)){
+        if(circuitre(matrix)){
+            showMessage("alert", "Matricea are circuite!!")
+        } else {
+            
+        }
+    }else{
+        showMessage("alert", "Matricea nu este patratica!!")
+    }
 }
 
 $('input[type=radio][name=inputType]').change(function() { 
