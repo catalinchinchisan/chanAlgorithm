@@ -29,8 +29,64 @@ var getInput = function(){
                     });
                 }
             }
+        }else if(inputType == "2"){
+            textareaVal = textareaVal.replace(/\n/g, "");
+            textareaVal = textareaVal.split(" ");
+            var maxNode = 1;
+            for(var i = textareaVal.length -1; i >= 0; i--){
+                if(textareaVal[i]=="") textareaVal.splice(i,1)
+                else{
+                    textareaVal[i] = textareaVal[i].replace(/\(/g, "");
+                    textareaVal[i] = textareaVal[i].replace(/\)/g, "");
+                    textareaVal[i] = textareaVal[i].split(",");
+                    textareaVal[i] = textareaVal[i].map(function (x) { 
+                        return parseInt(x); 
+                    });
+                    if(textareaVal[i][0] > maxNode) maxNode = textareaVal[i][0];
+                    if(textareaVal[i][1] > maxNode) maxNode = textareaVal[i][1];
+                }
+            }
+            for(var i = 0; i < maxNode; i++) {
+                matrix[i] = new Array(maxNode).fill(0);
+            }
+
+            for(var i = 0; i < textareaVal.length; i++) {
+                matrix[textareaVal[i][0] - 1][textareaVal[i][1] -1] = 1;
+            }
+        } else if(inputType == "3"){
+            var maxNode = 1;
+            textareaVal = textareaVal.split("\n");
+            //textareaVal = textareaVal.split(" ");
+            for(var i = textareaVal.length -1; i >= 0; i--){
+                textareaVal[i] = textareaVal[i].replace(/ /g, "");
+                if(textareaVal[i]=="") textareaVal.splice(i,1)
+                else{
+                    textareaVal[i] = textareaVal[i].split("->");
+                    textareaVal[i][0] = parseInt(textareaVal[i][0]);
+                    textareaVal[i][1] = textareaVal[i][1].split(",");
+                    textareaVal[i][1] = textareaVal[i][1].map(function (x) { 
+                        return parseInt(x); 
+                    });
+                }
+            }
+            for(var i = 0; i < textareaVal.length; i++){
+                if(textareaVal[i][0] > maxNode) maxNode = textareaVal[i][0];
+                for (var j = 0; j < textareaVal[i][1].length; j++){
+                    if(textareaVal[i][1][j] > maxNode) maxNode = textareaVal[i][1][j];
+                }
+            }
+            for(var i = 0; i < maxNode; i++) {
+                matrix[i] = new Array(maxNode).fill(0);
+            }
+            for(var i = 0; i < textareaVal.length; i++){
+                for (var j = 0; j < textareaVal[i][1].length; j++){
+                    matrix[textareaVal[i][0] - 1][textareaVal[i][1][j] -1] = 1;
+                }
+            }
+            console.log(matrix)
         }
         if(matrix){
+            
             for (var i = 0; i < matrix.length; i++){
                 if(matrix[i].length != matrix.length){
                     showMessage("alert", "Matricea nu este patratica!!")
@@ -185,7 +241,7 @@ var drawLines = function(){
 
 var startAlg = function(){
     console.log("startAlg()")
-    getInput()
+    console.log("matrix ",getInput())
 }
 
 $('input[type=radio][name=inputType]').change(function() { 
@@ -194,7 +250,7 @@ $('input[type=radio][name=inputType]').change(function() {
         $('#inputEx').html(("Input example <br>0,0,0,0,1 <br>1,0,0,1,1 <br>1,1,0,1,1 <br>1,0,0,0,1 <br>0,0,0,0,0"));
     }
    if(inputType == "2"){
-        $('#inputEx').html(("Input example <br>(1,5) (2,1) (2,4) (2,5) ..."));
+        $('#inputEx').html(("Input example <br>(1,5) (2,1) (2,4) (2,5) (3,1) (3,2) (3,4) (3,5) (4,1) (4,5)"));
     }
     if(inputType == "3"){
         $('#inputEx').html(("Input example <br>1->5<br>2->1,4,5 ..."));
