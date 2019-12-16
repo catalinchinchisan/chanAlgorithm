@@ -8,20 +8,20 @@ var inputType = "1";
 $('#inputEx').html("Input example <br>0,0,0,0,1 <br>1,0,0,1,1 <br>1,1,0,1,1 <br>1,0,0,0,1 <br>0,0,0,0,0");
 var showMessage = function(type, message){
     $('#dialogSpan').text(message);
-}
+};
 var getInput = function(){
     showMessage("alert", "")
     var textareaVal = $("#textArea").val();
     var matrix = [];
     if(textareaVal == undefined || textareaVal == ""){
-        showMessage("alert", "Input gol!")
+        showMessage("alert", "Input gol!");
     }else{
         if(inputType == "1"){
             matrix = textareaVal.split("\n");
             for(var i = matrix.length - 1; i >= 0; i--){
                 matrix[i] = matrix[i].replace(/ /g, "");
                 if(matrix[i] == ""){
-                    matrix.splice(i,1)
+                    matrix.splice(i,1);
                 }else{
 
                     matrix[i] = matrix[i].split(",").map(function (x) { 
@@ -34,7 +34,7 @@ var getInput = function(){
             textareaVal = textareaVal.split(" ");
             var maxNode = 1;
             for(var i = textareaVal.length -1; i >= 0; i--){
-                if(textareaVal[i]=="") textareaVal.splice(i,1)
+                if(textareaVal[i]=="") textareaVal.splice(i,1);
                 else{
                     textareaVal[i] = textareaVal[i].replace(/\(/g, "");
                     textareaVal[i] = textareaVal[i].replace(/\)/g, "");
@@ -59,7 +59,7 @@ var getInput = function(){
             //textareaVal = textareaVal.split(" ");
             for(var i = textareaVal.length -1; i >= 0; i--){
                 textareaVal[i] = textareaVal[i].replace(/ /g, "");
-                if(textareaVal[i]=="") textareaVal.splice(i,1)
+                if(textareaVal[i]=="") textareaVal.splice(i,1);
                 else{
                     textareaVal[i] = textareaVal[i].split("->");
                     textareaVal[i][0] = parseInt(textareaVal[i][0]);
@@ -83,17 +83,18 @@ var getInput = function(){
                     matrix[textareaVal[i][0] - 1][textareaVal[i][1][j] -1] = 1;
                 }
             }
-            console.log(matrix)
+            console.log(matrix);
         }
         if(matrix){
-            return(matrix)
+            return(matrix);
         }else{
-            showMessage("alert", "unexpected error")
+            showMessage("alert", "unexpected error");
             return [];
         }
     }
    
-}
+};
+
 function drawLine(ax,ay,bx,by) {
     var headlen = 10; 
     var dx = bx - ax;
@@ -120,20 +121,18 @@ function drawDot(x,y, pointName) {
 var matrix = [[0,0,0,0,1],[1,0,0,1,1],[1,1,0,1,1], [1,0,0,0,1], [0,0,0,0,0]];
 
 
-var getLines = function(){
+var getLines = function(mat){
     var array = [];
 
-    for (var i = 0; i < matrix.length;i++){
+    for (var i = 0; i < mat.length;i++){
         array.push([])
-        for(var j = 0; j < matrix[i].length;j++){
-            if(matrix[i][j] == 1) array[i].push(j);
+        for(var j = 0; j < mat[i].length;j++){
+            if(mat[i][j] == 1) array[i].push(j);
         }
     }
     return array;
-}
+};
 
-var arrayOfLineNodes = getLines();
-console.log(arrayOfLineNodes)
 
 for (var i = 0; i < matrix.length;i++){
     for(var j = 0; j < matrix[i].length;j++){
@@ -144,23 +143,14 @@ for (var i = 0; i < matrix.length;i++){
     }
     }
 }
-var checkHamiltonianPath = function(){
-    for (var i = 0; i < matrix.length;i++){
-        for(var j = 0; j < matrix[i].length;j++){
-            if(i == j && matrix[i][j] == 1) return true;
-        }
-    }
-    return false;
-}
 
-console.log("checkHamiltonianPath", checkHamiltonianPath())
 
 var addManualPoints = true;
 $('#myCanvas').click(function(e){
     if(addManualPoints){
         var x = e.clientX - $('#myCanvas').position().left, 
         y = e.clientY - $('#myCanvas').position().top;  
-        console.log(x,y)
+        console.log(x,y);
         if(graficPoints.length < matrix.length){
             graficPoints.push({
                 name: "x"+(graficPoints.length+1),
@@ -168,16 +158,17 @@ $('#myCanvas').click(function(e){
                 y:y
             });
 
-            drawDot(x,y,"x"+(graficPoints.length))
+            drawDot(x,y,"x"+(graficPoints.length));
             
         }
         if(graficPoints.length == matrix.length){
-            console.log(graficPoints)
-            drawLines()
+            console.log(graficPoints);
+            drawLines(matrix);
+            addManualPoints = false;
         }
     }
     
-})  
+});
 
 
 var generateGraficPoints = function(){
@@ -186,23 +177,23 @@ var generateGraficPoints = function(){
     circle_y = 250;
     var points = [];
     for(var i = 0; i < matrix.length; i++){
-        var alpha = 2 * Math.PI * Math.random()
+        var alpha = 2 * Math.PI * Math.random();
     
     
-        r = circle_r * Math.sqrt(Math.random())
+        r = circle_r * Math.sqrt(Math.random());
         
-        x = parseInt(r * Math.cos(alpha) + circle_x)
-        y = parseInt(r * Math.sin(alpha) + circle_y)
-        console.log(x,y)
+        x = parseInt(r * Math.cos(alpha) + circle_x);
+        y = parseInt(r * Math.sin(alpha) + circle_y);
+        console.log(x,y);
         points.push({
             name: "x"+(i+1),
             x:x,
             y:y
-        })
+        });
     //drawDot(x,y, "x"+(i+1))
     }
     return points;
-}
+};
 
 var addAutoPoints = function(){
     //var points = generateGraficPoints();
@@ -210,27 +201,28 @@ var addAutoPoints = function(){
 // for(var i = 0; i < points.length; i++){
 //     drawDot(points[i].x,points[i].y,points[i].name)
 // }
-}
+};
 
 var getPointCoordonate = function(point){
     for (var i = 0; i< graficPoints.length; i++){
-        if("x" + point == graficPoints[i].name) return{x:graficPoints[i].x, y: graficPoints[i].y}
+        if("x" + point == graficPoints[i].name) return{x:graficPoints[i].x, y: graficPoints[i].y};
     }
-}
+};
 
 
-var drawLines = function(){
+var drawLines = function(mat){
     var startPoint = 0;
     var stopPoint = 0;
-    for(var i = 0; i < arrayOfLineNodes.length; i++){
+    arrayOfNodes = getLines(mat);
+    for(var i = 0; i < arrayOfNodes.length; i++){
 
         startPoint = getPointCoordonate(i+1);
-        for(var j = 0; j < arrayOfLineNodes[i].length; j++){ 
-            stopPoint = getPointCoordonate(arrayOfLineNodes[i][j]+1)
-            if(startPoint && stopPoint) drawLine(startPoint.x,startPoint.y,stopPoint.x,stopPoint.y)
+        for(var j = 0; j < arrayOfNodes[i].length; j++){ 
+            stopPoint = getPointCoordonate(arrayOfNodes[i][j]+1);
+            if(startPoint && stopPoint) drawLine(startPoint.x,startPoint.y,stopPoint.x,stopPoint.y);
         }
     }
-}
+};
 
 var matricePatratica = function(mat){
     for (var i = 0; i < mat.length; i++){
@@ -240,7 +232,7 @@ var matricePatratica = function(mat){
         }
     }
     return true;
-}
+};
 
 var circuitre = function(mat){
     for (var i = 0; i < mat.length; i++){
@@ -250,8 +242,8 @@ var circuitre = function(mat){
         }
     }
     return false;
-}
-
+};
+var arrayOfNodes = [];
 var startAlg = function(){
     console.log("startAlg()")
     console.log("matrix ",getInput())
@@ -260,12 +252,12 @@ var startAlg = function(){
         if(circuitre(matrix)){
             showMessage("alert", "Matricea are circuite!!")
         } else {
-            
+            arrayOfNodes = getLines(matrix);
         }
     }else{
         showMessage("alert", "Matricea nu este patratica!!")
     }
-}
+};
 
 $('input[type=radio][name=inputType]').change(function() { 
     inputType = this.value;
