@@ -4,32 +4,62 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700|Roboto:400,700,900&display=swap" rel="stylesheet">    
+    <link rel="stylesheet" href="style.css">
     <title>Document</title>
 </head>
 <body>
-        <span id="dialogSpan"></span>
-    <form action="#n" name="theForm">
-        <label for="inputType">Type: </label>
-        <input type="radio" name="inputType" value="1" checked> 1
-        <input type="radio" name="inputType" value="2" > 2
-        <input type="radio" name="inputType" value="3" > 3
-    </form>
-    <div id="inputEx">
-        
+    <div id="titleArea" class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="h2">Optimizare pe grafuri</h1>
+                <h2 class="h3">Algoritmul lui Chen</h2>
+            </div>
+        </div>
     </div>
-    <textarea id="textArea" rows="4" cols="50">
-        1->5
-        2->1,4,5
-        3->1,2,4,5
-        4->1,5
-    </textarea>
-    <button id="autoAddPoints" onClick="addAutoPoints()">Adauga puncte auto</button>
-    <button id="manualAddPoints">Adauga puncte manual</button>
-    <button id="startAlg" onClick="startAlg()">Start</button>
-    <div>
-        <canvas id="myCanvas" width="500" height="500" style="border:1px solid #000000;"></canvas>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8">
+                <span id="dialogSpan"></span>
+                <form action="#n" name="theForm">
+                    <label for="inputType">Alegeti modul de introducere a datelor: </label><br>
+                    <label class="radio">
+                            <input type="radio" name="inputType" value="1" checked>
+                            <span>Matrice</span>
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="inputType" value="2">
+                            <span>Vector</span>
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="inputType" value="3">
+                            <span>Asignare</span>
+                        </label>
+                </form>
+                <div id="inputEx">
+                    
+                </div>
+                <textarea id="textArea" rows="4" cols="50">
+                    1->5
+                    2->1,4,5
+                    3->1,2,4,5
+                    4->1,5
+                </textarea>
+                <button id="autoAddPoints" onClick="addAutoPoints()">Adauga puncte auto</button>
+                <button id="manualAddPoints">Adauga puncte manual</button>
+                <button id="startAlg" onClick="startAlg()">Start</button>
 
+            </div>
+            <div class="col-md-4">
+                <canvas id="myCanvas" width="500" height="500" style="border:1px solid #000000;"></canvas>
+        
+            </div>
+        </div>
     </div>
-    <script src="script.js"></script>
 </body>
+<script src="script.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </html>
