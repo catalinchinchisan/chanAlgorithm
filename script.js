@@ -176,7 +176,25 @@ $('#myCanvas').click(function(e){
 
 
 var generateGraficPoints = function(){
-    circle_r = 100;
+    r = 150;
+    var points = [];
+    var step = 360 / matrix.length;
+    for(var i = 0; i < matrix.length; i++){
+
+        x = 250 + r * Math.cos(step*i)
+        y = 250 + r * Math.sin(step*i)
+        
+        points.push({
+            name: "x"+(i+1),
+            x:x,
+            y:y
+        });
+    }
+    return points;
+};
+
+var generateRandomGraficPoints = function(){
+    circle_r = 150;
     circle_x = 250;
     circle_y = 250;
     var points = [];
@@ -262,9 +280,10 @@ var startAlg = function(type){
                     addManualPoints = true;
 
                 }
-                if(type == "auto"){
+                if(type == "auto" || type == "random"){
                     addManualPoints = false;
-                    graficPoints = generateGraficPoints();
+                    if(type == "auto") graficPoints = generateGraficPoints();
+                    if(type == "random") graficPoints = generateRandomGraficPoints();
                     for(var i = 0; i < graficPoints.length; i++){
                         drawDot(graficPoints[i].x,graficPoints[i].y,graficPoints[i].name);
                     }
