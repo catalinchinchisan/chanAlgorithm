@@ -5,6 +5,7 @@ var canvas = document.getElementById("myCanvas")
 var ctx = canvas.getContext("2d");
 var graficPoints = [];
 var inputType = "1";
+var arrayOfNodes = [];
 $('#inputEx').html("Input example <br>0,0,0,0,1 <br>1,0,0,1,1 <br>1,1,0,1,1 <br>1,0,0,0,1 <br>0,0,0,0,0");
 var showMessage = function(type, message){
     $('#dialogSpan').text(message);
@@ -83,7 +84,6 @@ var getInput = function(){
                     matrix[textareaVal[i][0] - 1][textareaVal[i][1][j] -1] = 1;
                 }
             }
-            console.log(matrix);
         }
         if(matrix){
             return(matrix);
@@ -145,12 +145,11 @@ for (var i = 0; i < matrix.length;i++){
 }
 
 
-var addManualPoints = true;
+var addManualPoints = false;
 $('#myCanvas').click(function(e){
     if(addManualPoints){
         var x = e.clientX - $('#myCanvas').position().left, 
-        y = e.clientY - $('#myCanvas').position().top;  
-        console.log(x,y);
+        y = e.clientY - $('#myCanvas').position().top;
         if(graficPoints.length < matrix.length){
             graficPoints.push({
                 name: "x"+(graficPoints.length+1),
@@ -162,9 +161,9 @@ $('#myCanvas').click(function(e){
             
         }
         if(graficPoints.length == matrix.length){
-            console.log(graficPoints);
             drawLines(matrix);
             addManualPoints = false;
+            showResult(matrix);
         }
     }
     
@@ -184,7 +183,6 @@ var generateGraficPoints = function(){
         
         x = parseInt(r * Math.cos(alpha) + circle_x);
         y = parseInt(r * Math.sin(alpha) + circle_y);
-        console.log(x,y);
         points.push({
             name: "x"+(i+1),
             x:x,
@@ -234,7 +232,7 @@ var matricePatratica = function(mat){
     return true;
 };
 
-var circuitre = function(mat){
+var circuite = function(mat){
     for (var i = 0; i < mat.length; i++){
         if(mat[i][i] == 1){
             
@@ -243,22 +241,55 @@ var circuitre = function(mat){
     }
     return false;
 };
-var arrayOfNodes = [];
-var startAlg = function(){
-    console.log("startAlg()")
-    console.log("matrix ",getInput())
+
+var startAlg = function(type){
     matrix = getInput();
+    ctx.clearRect(0,0,canvas.clientWidth, canvas.height)
     if(matricePatratica(matrix)){
-        if(circuitre(matrix)){
+        if(circuite(matrix)){
+            //$("#startAlg").css("visibility", "hidden");
             showMessage("alert", "Matricea are circuite!!")
         } else {
             arrayOfNodes = getLines(matrix);
+            if(arrayOfNodes && arrayOfNodes.length > 0){
+                //$("#startAlg").css("visibility", "visible");
+                if(type == 'manual'){
+                    graficPoints = [];
+                    addManualPoints = true;
+
+                }
+                if(type == "auto"){
+                    addManualPoints = false;
+                    graficPoints = generateGraficPoints();
+                    for(var i = 0; i < graficPoints.length; i++){
+                        drawDot(graficPoints[i].x,graficPoints[i].y,graficPoints[i].name);
+                    }
+                    drawLines(graficPoints);
+                    showResult(matrix);
+                } 
+                
+            }else{
+
+                //$("#startAlg").css("visibility", "hidden");
+                showMessage("alert", "unexpected error")
+            }
         }
     }else{
+
+        //$("#startAlg").css("visibility", "hidden");
         showMessage("alert", "Matricea nu este patratica!!")
     }
 };
 
+
+var showResult = function(mat){
+    var arrayOfNodes = getLines(matrix);
+    console.log("showResult()",arrayOfNodes)
+    for (var i = 0; i < arrayOfNodes.length; i++){
+        console.log("P(X" + (i + 1)+") =" + arrayOfNodes[i].length)
+    }
+
+}
 $('input[type=radio][name=inputType]').change(function() { 
     inputType = this.value;
     if(inputType == "1"){
