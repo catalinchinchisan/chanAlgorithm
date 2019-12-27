@@ -102,13 +102,14 @@ var drawLine = function(ax,ay,bx,by,color) {
     var dx = bx - ax;
     var dy = by - ay;
     var angle = Math.atan2(dy, dx);
+    ctx.beginPath();
+    ctx.strokeStyle = lineColor;
     ctx.moveTo(step*ax, step*ay);
     ctx.lineTo(step*bx, step*by);
     ctx.lineTo(bx, by);
     ctx.lineTo(bx - headlen * Math.cos(angle - Math.PI / 6), by - headlen * Math.sin(angle - Math.PI / 6));
     ctx.moveTo(bx, by);
     ctx.lineTo(bx - headlen * Math.cos(angle + Math.PI / 6), by - headlen * Math.sin(angle + Math.PI / 6));
-    ctx.strokeStyle = lineColor;
     ctx.stroke();
 }
 
@@ -149,10 +150,11 @@ for (var i = 0; i < matrix.length;i++){
 
 
 var addManualPoints = false;
+
 $('#myCanvas').click(function(e){
     if(addManualPoints){
-        var x = e.clientX - $('#myCanvas').position().left, 
-        y = e.clientY - $('#myCanvas').position().top;
+        var x = e.offsetX, 
+        y = e.offsetY;
         if(graficPoints.length < matrix.length){
             graficPoints.push({
                 name: "x"+(graficPoints.length+1),
@@ -246,16 +248,15 @@ var circuite = function(mat){
 };
 
 var startAlg = function(type){
+    $('#resultsMessage').html((""));
     matrix = getInput();
     ctx.clearRect(0,0,canvas.clientWidth, canvas.height)
     if(matricePatratica(matrix)){
         if(circuite(matrix)){
-            //$("#startAlg").css("visibility", "hidden");
             showMessage("alert", "Matricea are circuite!!")
         } else {
             arrayOfNodes = getLines(matrix);
             if(arrayOfNodes && arrayOfNodes.length > 0){
-                //$("#startAlg").css("visibility", "visible");
                 if(type == 'manual'){
                     graficPoints = [];
                     addManualPoints = true;
@@ -267,19 +268,15 @@ var startAlg = function(type){
                     for(var i = 0; i < graficPoints.length; i++){
                         drawDot(graficPoints[i].x,graficPoints[i].y,graficPoints[i].name);
                     }
-                    drawLines(graficPoints);
+                    drawLines(matrix);
                     showResult(matrix);
                 } 
                 
             }else{
-
-                //$("#startAlg").css("visibility", "hidden");
                 showMessage("alert", "unexpected error")
             }
         }
     }else{
-
-        //$("#startAlg").css("visibility", "hidden");
         showMessage("alert", "Matricea nu este patratica!!")
     }
 };
@@ -313,8 +310,8 @@ var showResult = function(mat){
         for (var i = 0; i < sortedPoints.length; i++){
             if(i < arrayOfNodes.length - 1) ch = " > ";
             else ch = "<br>"
-            message = message + "P(X" + (sortedPoints[i].x + 1)+")" + ch;
-            dh = dh + "X" + (sortedPoints[i].x + 1) + " , ";
+            message = message + "P(X" + (sortedPoints[i].x)+")" + ch;
+            dh = dh + "X" + (sortedPoints[i].x) + " , ";
         }
         dh = dh.substring(0, dh.length - 3);
         message = message +"dH = " + dh;
