@@ -95,7 +95,9 @@ var getInput = function(){
    
 };
 
-function drawLine(ax,ay,bx,by) {
+var drawLine = function(ax,ay,bx,by,color) {
+    if (color == "red") lineColor = '#ff0000';
+    else lineColor =  "#000"
     var headlen = 10; 
     var dx = bx - ax;
     var dy = by - ay;
@@ -106,6 +108,7 @@ function drawLine(ax,ay,bx,by) {
     ctx.lineTo(bx - headlen * Math.cos(angle - Math.PI / 6), by - headlen * Math.sin(angle - Math.PI / 6));
     ctx.moveTo(bx, by);
     ctx.lineTo(bx - headlen * Math.cos(angle + Math.PI / 6), by - headlen * Math.sin(angle + Math.PI / 6));
+    ctx.strokeStyle = lineColor;
     ctx.stroke();
 }
 
@@ -284,11 +287,52 @@ var startAlg = function(type){
 
 var showResult = function(mat){
     var arrayOfNodes = getLines(matrix);
-    console.log("showResult()",arrayOfNodes)
+    var message = "";
+    var nodeSum = 0;
+    var nodesStringVal = "";
+    var sortedPoints = [];
     for (var i = 0; i < arrayOfNodes.length; i++){
-        console.log("P(X" + (i + 1)+") =" + arrayOfNodes[i].length)
+        if(i < arrayOfNodes.length - 1) ch = ", ";
+        else ch = "<br>"
+        message = message + "P(X" + (i + 1)+") =" + arrayOfNodes[i].length + ch;
+        nodeSum = nodeSum + arrayOfNodes[i].length;
+        nodesStringVal = nodesStringVal + arrayOfNodes[i].length + " + ";
+        sortedPoints.push({
+            x: i + 1,
+            len: arrayOfNodes[i].length
+        })
     }
-
+    nodesStringVal = nodesStringVal.substring(0, nodesStringVal.length - 3);
+    message = message + "<p><span>&Sigma;</span>P ( Xi ) = n(n - 1)/2</p><br>";
+    message = message + "<p><span>&Sigma;</span>P ( Xi ) = "+ arrayOfNodes.length + "(" + arrayOfNodes.length + " - 1)/2</p><br>";
+    message = message + nodesStringVal + " = "+ ((arrayOfNodes.length  * (arrayOfNodes.length - 1))/2)+"<br>";
+    if(nodeSum == ((arrayOfNodes.length  * (arrayOfNodes.length - 1))/2)){// exista drum hamiltonian
+        message = message + nodeSum + " = "+ ((arrayOfNodes.length  * (arrayOfNodes.length - 1))/2)+" => Exista drum hamiltonian<br>";
+        sortedPoints.sort(function(a, b){return b.len - a.len;});
+        var dh = "";
+        for (var i = 0; i < sortedPoints.length; i++){
+            if(i < arrayOfNodes.length - 1) ch = " > ";
+            else ch = "<br>"
+            message = message + "P(X" + (sortedPoints[i].x + 1)+")" + ch;
+            dh = dh + "X" + (sortedPoints[i].x + 1) + " , ";
+        }
+        dh = dh.substring(0, dh.length - 3);
+        message = message +"dH = " + dh;
+        for (var i = 0; i < sortedPoints.length; i++){
+            if(sortedPoints[i] != undefined && sortedPoints[i + 1] != undefined){
+                startPoint = getPointCoordonate(sortedPoints[i].x);
+            
+                stopPoint = getPointCoordonate(sortedPoints[i + 1].x);
+                if(startPoint && stopPoint){
+                    drawLine(startPoint.x,startPoint.y,stopPoint.x,stopPoint.y, "red");
+                }
+            }
+        }
+    }else{
+        message = message + nodeSum + " != "+ ((arrayOfNodes.length  * (arrayOfNodes.length - 1))/2)+" => Nu exista drum hamiltonian<br>"
+        
+    }
+    $('#resultsMessage').html((message));
 }
 $('input[type=radio][name=inputType]').change(function() { 
     inputType = this.value;
