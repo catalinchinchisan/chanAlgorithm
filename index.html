@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700|Roboto:400,700,900&display=swap" rel="stylesheet">    
     <link rel="stylesheet" href="style.css">
-    <title>Document</title>
+    <title>Chen Algorithm</title>
 </head>
 <body>
     <div id="titleArea" class="container-fluid">
@@ -20,43 +20,52 @@
     </div>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-8">
-                <span id="dialogSpan"></span>
-                <form action="#n" name="theForm">
-                    <label for="inputType">Alegeti modul de introducere a datelor: </label><br>
-                    <label class="radio">
-                            <input type="radio" name="inputType" value="1" checked>
-                            <span>Matrice</span>
-                        </label>
-                        <label class="radio">
-                            <input type="radio" name="inputType" value="2">
-                            <span>Vector</span>
-                        </label>
-                        <label class="radio">
-                            <input type="radio" name="inputType" value="3">
-                            <span>Asignare</span>
-                        </label>
-                </form>
-                <div id="inputEx">
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-12">
+                        <span id="dialogSpan"></span>
+                        <form action="#n" name="theForm">
+                            <label for="inputType">Alegeti modul de introducere a datelor: </label><br>
+                            <label class="radio">
+                                    <input type="radio" name="inputType" value="1" checked>
+                                    <span>Matrice</span>
+                                </label>
+                                <label class="radio">
+                                    <input type="radio" name="inputType" value="2">
+                                    <span>Vector</span>
+                                </label>
+                                <label class="radio">
+                                    <input type="radio" name="inputType" value="3">
+                                    <span>Asignare</span>
+                                </label>
+                        </form>
+                    </div>
+                <div id="inputEx" class="col-md-12">
                     
                 </div>
-                <textarea id="textArea" rows="4" cols="50">
-                    0,0,0,0,1
-                    1,0,0,1,1
-                    1,1,0,1,1
-                    1,0,0,0,1
-                    0,0,0,0,0
-                </textarea>
-                <button id="autoAddPoints" onClick="startAlg('auto')">Adauga puncte auto</button>
-                <button id="autoAddPoints" onClick="startAlg('random')">Adauga puncte aleatorii</button>
-                <button id="manualAddPoints"onClick="startAlg('manual')" >Adauga puncte manual</button>
-                <div id="resultsMessage">
-                    
+                <div class="col-md-12">
+                    <textarea id="textArea" rows="10" cols="50">
+                        0,0,0,0,1
+                        1,0,0,1,1
+                        1,1,0,1,1
+                        1,0,0,0,1
+                        0,0,0,0,0
+                    </textarea>
+                    <div id="resultsMessage">
+                        
+                    </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <canvas id="myCanvas" width="500" height="500" style="border:1px solid #000000;"></canvas>
-        
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div id="menuWrap">
+                        <button id="autoAddPoints" class="btn btn-outline-primary menuButton" onClick="startAlg('auto')">Adauga puncte auto</button>
+                        <button id="autoAddPoints" class="btn btn-outline-primary menuButton" onClick="startAlg('random')">Adauga puncte aleatorii</button>
+                        <button id="manualAddPoints" class="btn btn-outline-primary menuButton" onClick="startAlg('manual')" >Adauga puncte manual</button>        
+                    </div>
+                    <canvas id="myCanvas" width="600" height="500" style="border:1px solid #000000;"></canvas>
+                </div>
             </div>
         </div>
     </div>

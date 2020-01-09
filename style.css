@@ -96,3 +96,13 @@ body{
     width: 27px;
     text-align: center;
 }
+#menuWrap{
+    margin-bottom: 20px;
+}
+.menuButton{
+    margin-right: 10px;
+}
+#dialogSpan{
+    color:red;
+    font-weight: bold;
+}

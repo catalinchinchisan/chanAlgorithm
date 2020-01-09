@@ -96,7 +96,7 @@ var getInput = function(){
 };
 
 var drawLine = function(ax,ay,bx,by,color) {
-    if (color == "red") lineColor = '#ff0000';
+    if (color == "red") lineColor = '#00FF00';
     else lineColor =  "#000"
     var headlen = 10; 
     var dx = bx - ax;
@@ -359,7 +359,7 @@ $('input[type=radio][name=inputType]').change(function() {
         $('#inputEx').html(("Input example <br>(1,5) (2,1) (2,4) (2,5) (3,1) (3,2) (3,4) (3,5) (4,1) (4,5)"));
     }
     if(inputType == "3"){
-        $('#inputEx').html(("Input example <br>1->5<br>2->1,4,5 ..."));
+        $('#inputEx').html(("Input example <br>1->5<br>2->1, 4, 5<br>3->1, 2, 4, 5<br>4->1, 5<br>5->"));
     }
 });
 
